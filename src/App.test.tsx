@@ -24,7 +24,7 @@ describe("App", () => {
 
     await user.type(screen.getByLabelText("Title"), "Complete assignment");
     await user.click(screen.getByRole("button", { name: /add task/i }));
-    await user.click(await screen.findByRole("button", { name: /complete/i }));
+    await user.click(await screen.findByRole("button", { name: /^Complete$/ }));
 
     expect(await screen.findByText("completed")).toBeInTheDocument();
   });
