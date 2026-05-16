@@ -17,4 +17,15 @@ describe("App", () => {
 
     expect(await screen.findByText("Write AI-ready requirements")).toBeInTheDocument();
   });
+
+  it("completes a created task", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.type(screen.getByLabelText("Title"), "Complete assignment");
+    await user.click(screen.getByRole("button", { name: /add task/i }));
+    await user.click(await screen.findByRole("button", { name: /complete/i }));
+
+    expect(await screen.findByText("completed")).toBeInTheDocument();
+  });
 });
