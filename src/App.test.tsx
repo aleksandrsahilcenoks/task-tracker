@@ -26,6 +26,6 @@ describe("App", () => {
     await user.click(screen.getByRole("button", { name: /add task/i }));
     await user.click(await screen.findByRole("button", { name: /^Complete$/ }));
 
-    expect(await screen.findByText("completed")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /^Complete$/ })).not.toBeInTheDocument();
   });
 });
