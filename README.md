@@ -1,61 +1,42 @@
 # Task Tracker
 
-Task Tracker is a course project for the Software Engineering 2025–2026 practical assignments.
+Task Tracker is a TypeScript, React, Vite, Tailwind, and Vitest course project for Software Engineering 2025-2026 practical assignments.
 
-The project is a small task-management application focused on AI-native software engineering practices: explicit requirements, UML-as-code, clean architecture, design patterns, and testable business logic.
+The project demonstrates AI-native software engineering through explicit requirements, Mermaid diagrams, an AGENTS.md repository contract, a DESIGN.md UI contract, clean business boundaries, and tests around pure logic.
 
-## Project Goals
+## Features
 
-- Create, view, update, complete, and organize tasks.
-- Keep business logic separated from UI code.
-- Use AI-ready requirements to guide implementation.
-- Document the project through GitHub Issues, Pull Requests, Mermaid diagrams, and architectural decisions.
-- Apply a suitable design pattern to prevent unmaintainable spaghetti code.
+- Create tasks with title, description, due date, importance, and estimated effort.
+- Complete active tasks without overwriting the original completion timestamp.
+- Calculate task priority with the Strategy Pattern.
+- View all, active, and completed tasks.
+- Store tasks locally through a repository adapter.
 
-## Course Assignments Covered
-
-### Practical Assignment 2 — SWE Project Planning
-
-This repository includes:
-
-- `/docs` folder.
-- `docs/pm_approach.md`.
-- `AGENTS.md`.
-- GitHub Issue and Pull Request workflow.
-- Documentation-first project setup.
-
-### Practical Assignment 3 — AI-Ready Requirements and UML-as-Code
-
-This repository includes:
-
-- atomic user stories,
-- BDD acceptance criteria,
-- Mermaid diagrams,
-- pure-function contracts,
-- AI-ready constraints.
-
-### Practical Assignment 4 — Architectural Patterns and Structural Integrity
-
-The selected feature is **Task Priority Calculation**.
-
-The selected design pattern is **Strategy Pattern**.
-
-The business logic will be implemented through interchangeable priority calculation strategies instead of one large conditional block.
-
-## Suggested Tech Stack
+## Tech Stack
 
 - TypeScript
 - React
 - Vite
+- Tailwind CSS
 - Vitest
+- Testing Library
 
-The exact implementation may evolve, but Codex must preserve the architectural rules defined in `AGENTS.md`.
+## Scripts
+
+```bash
+npm install
+npm run dev
+npm test -- --run
+npm run build
+npm run preview
+```
 
 ## Repository Structure
 
 ```text
 .
 ├── AGENTS.md
+├── DESIGN.md
 ├── README.md
 ├── docs/
 │   ├── pm_approach.md
@@ -65,23 +46,50 @@ The exact implementation may evolve, but Codex must preserve the architectural r
 │   ├── decisions/
 │   └── prompts/
 ├── src/
-│   └── features/
-│       └── tasks/
-│           ├── domain/
-│           ├── strategies/
-│           ├── services/
-│           ├── repositories/
-│           └── __tests__/
-└── tests/
+│   ├── app/
+│   │   └── create-task-services.ts
+│   ├── features/
+│   │   └── tasks/
+│   │       ├── __tests__/
+│   │       ├── domain/
+│   │       ├── repositories/
+│   │       ├── services/
+│   │       ├── strategies/
+│   │       └── ui/
+│   ├── test/
+│   │   └── setup.ts
+│   ├── App.tsx
+│   ├── App.test.tsx
+│   ├── index.css
+│   └── main.tsx
+└── package.json
 ```
+
+## Architecture
+
+Task business logic lives under `src/features/tasks`.
+
+- Domain functions are pure and tested.
+- Priority logic uses Strategy Pattern classes.
+- Services orchestrate use cases.
+- Repositories hide persistence.
+- React components call services through `useTaskTracker`.
+
+No backend is required for the initial version. The persistence layer is designed so a backend repository adapter can replace localStorage later without changing domain rules or UI workflows.
+
+## Assignment Coverage
+
+- Practical Assignment 2: documentation-first repository setup.
+- Practical Assignment 3: AI-ready requirements and Mermaid UML-as-code.
+- Practical Assignment 4: Strategy Pattern for task priority calculation.
+- UI assignment: DESIGN.md contract and React/Tailwind frontend connected to task logic.
 
 ## Definition of Done
 
-A feature is done only when:
+A change is complete only when:
 
-- requirements are documented,
-- BDD acceptance criteria are satisfied,
-- business logic is covered by tests,
-- Mermaid diagrams are updated if structure changes,
-- implementation follows `AGENTS.md`,
-- Pull Request is linked to a GitHub Issue.
+- requirements or design docs are updated when behavior changes,
+- pure domain logic has tests,
+- priority strategies have tests,
+- `npm test -- --run` passes,
+- `npm run build` passes.
