@@ -8,6 +8,34 @@ classDiagram
       +calculate(task: Task, currentDate: Date) TaskPriority
     }
 
+    class TaskService {
+      -TaskRepository repository
+      +list() Task[]
+      +create(input: TaskInput) TaskResult
+      +complete(id: string) TaskResult
+    }
+
+    class TaskRepository {
+      <<interface>>
+      +list() Task[]
+      +findById(id: string) Task?
+      +save(task: Task) Task
+      +replaceAll(tasks: Task[]) void
+    }
+
+    class LocalStorageTaskRepository {
+      +list() Task[]
+      +findById(id: string) Task?
+      +save(task: Task) Task
+      +replaceAll(tasks: Task[]) void
+    }
+
+    class useTaskTracker {
+      +create(input: TaskInput) boolean
+      +complete(id: string) boolean
+      +visibleTasks TaskViewModel[]
+    }
+
     class PriorityStrategy {
       <<interface>>
       +calculate(task: Task, currentDate: Date) TaskPriority
@@ -36,4 +64,9 @@ classDiagram
     PriorityStrategy <|.. EffortPriorityStrategy
     PriorityStrategy <|.. CompositePriorityStrategy
     CompositePriorityStrategy --> PriorityStrategy
+    TaskPriorityService --> PriorityStrategy
+    TaskService --> TaskRepository
+    LocalStorageTaskRepository ..|> TaskRepository
+    useTaskTracker --> TaskService
+    useTaskTracker --> TaskPriorityService
 ```
