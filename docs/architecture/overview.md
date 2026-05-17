@@ -10,15 +10,27 @@ The first feature module is:
 src/features/tasks/
 ```
 
-This module owns all task-related domain logic, strategies, services, repositories, and tests.
+This module owns all task-related domain logic, strategies, services, repositories, UI feature components, and tests.
 
 ## Main Layers
+
+### Composition Root
+
+`src/app/create-task-services.ts` wires concrete browser implementations:
+
+- `LocalStorageTaskRepository`,
+- `TaskService`,
+- default `TaskPriorityService`.
+
+This keeps React components from constructing strategy objects or touching browser storage directly.
 
 ### UI Layer
 
 React components display data and receive user actions.
 
 UI must not contain business rules such as validation, completion logic, or priority calculation.
+
+The UI state lives in `src/features/tasks/ui/useTaskTracker.ts`, which calls services and maps tasks into view models with calculated priority.
 
 ### Service Layer
 
@@ -39,6 +51,7 @@ Example:
 - `TaskStatus`
 - `TaskPriority`
 - `validateTaskInput`
+- `createTask`
 - `completeTask`
 
 ### Strategy Layer
@@ -56,12 +69,19 @@ Example:
 
 Repositories hide persistence details.
 
-Initial implementation may use localStorage, but UI and services should depend on repository interfaces rather than direct browser storage calls.
+The current implementation includes:
+
+- `TaskRepository` interface,
+- `InMemoryTaskRepository` for tests and fallback,
+- `LocalStorageTaskRepository` for the browser app.
+
+UI and services depend on repository interfaces rather than direct browser storage calls.
 
 ## Dependency Direction
 
 ```text
-UI → Services → Domain / Strategies / Repositories
+UI -> Services -> Domain / Strategies / Repositories
+Composition Root -> Concrete Repositories / Strategies / Services
 ```
 
 Domain logic should not depend on UI.
