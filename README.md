@@ -93,3 +93,15 @@ A change is complete only when:
 - priority strategies have tests,
 - `npm test -- --run` passes,
 - `npm run build` passes.
+
+## Deployment
+
+The app is deployment-ready for Vercel or Netlify.
+
+Vercel configuration is stored in `vercel.json`.
+
+Deployment details are documented in `docs/deployment.md`.
+
+## Final Report
+
+The final course report is written in Markdown at `FINAL_REPORT.md` so it can be exported to PDF for Moodle submission.
